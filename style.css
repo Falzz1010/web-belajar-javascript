@@ -1,0 +1,27 @@
+
+.example-card {
+  background-color: #2c3e50;
+  color: #ecf0f1;
+  border-radius: 0.5rem;
+  padding: 1rem;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.example-card pre {
+  background-color: #34495e;
+  border-radius: 0.25rem;
+  padding: 0.5rem;
+  overflow-x: auto;
+}
+
+.example-card code {
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 0.9rem;
+  color: #bdc3c7;
+}
+
+
+.navbar {
+    background-color: rgba(var(--base-100), 0.8);
+    backdrop-filter: blur(4px);
+  }
