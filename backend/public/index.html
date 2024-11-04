@@ -1,0 +1,1135 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Learn JavaScript - From Basic to Expert</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/daisyui@2.x/dist/full.css" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Fira+Code&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-dark.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/highlight.js@11.x/lib/highlight.min.js"></script>
+  <script>
+    // Check for saved theme preference or use default (light)
+    if (localStorage.getItem('theme') === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+      document.documentElement.setAttribute('data-theme', 'dark');
+    } else {
+      document.documentElement.setAttribute('data-theme', 'light');
+    }
+  </script>
+  <script>
+    // Set initial theme based on current mode
+    const currentTheme = localStorage.getItem('theme') || 
+      (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+    updateCodeTheme(currentTheme);
+  </script>
+</head>
+<body class="min-h-screen bg-gradient-to-br from-base-200 to-base-300 transition-colors duration-300">
+  <div class="drawer drawer-mobile">
+    <input id="my-drawer" type="checkbox" class="drawer-toggle" aria-label="Toggle sidebar" />
+    <div class="drawer-content flex flex-col">
+      <!-- Navbar -->
+      <nav class="navbar bg-base-100 shadow-lg sticky top-0 z-30">
+        <div class="flex-none lg:hidden">
+          <label for="my-drawer" class="btn btn-square btn-ghost" aria-label="Open sidebar">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" class="inline-block w-6 h-6 stroke-current"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path></svg>
+          </label>
+        </div> 
+        <div class="flex-1 px-2 mx-2">
+          <span class="text-lg font-bold">Belajar JavaScript</span>
+        </div>
+        <div class="flex-none">
+          <button id="theme-toggle" class="btn btn-ghost btn-circle" aria-label="Toggle theme">
+            <svg id="theme-toggle-dark-icon" class="w-5 h-5 hidden" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path></svg>
+            <svg id="theme-toggle-light-icon" class="w-5 h-5 hidden" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" fill-rule="evenodd" clip-rule="evenodd"></path></svg>
+          </button>
+        </div>
+      </nav>
+
+      <!-- Main content -->
+      <main class="container mx-auto p-2 sm:p-4 flex-grow">
+        <!-- Section: Introduction -->
+        <section id="introduction" class="card bg-base-100 shadow-xl my-4 sm:my-8 pt-16">
+          <div class="card-body">
+            <h2 class="card-title text-xl sm:text-2xl md:text-3xl mb-4">Pengenalan JavaScript</h2>
+            <p class="mb-4 text-sm sm:text-base">JavaScript adalah bahasa pemrograman serbaguna yang menggerakkan interaktivitas web. Dalam tutorial ini, Anda akan memulai dari dasar dan maju ke topik tingkat ahli.</p>
+            
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
+              <div class="card bg-base-200">
+                <div class="card-body">
+                  <h3 class="card-title text-base sm:text-lg md:text-xl">Apa itu JavaScript?</h3>
+                  <p class="text-sm sm:text-base">JavaScript adalah bahasa pemrograman yang digunakan untuk membuat halaman web interaktif. Dengan JavaScript, Anda dapat:</p>
+                  <ul class="list-disc ml-4 sm:ml-6 mt-2 text-sm sm:text-base">
+                    <li>Mengubah konten HTML dan CSS</li>
+                    <li>Merespons tindakan pengguna</li>
+                    <li>Mengirim dan menerima data dari server</li>
+                    <li>Membuat animasi dan efek visual</li>
+                  </ul>
+                </div>
+              </div>
+              
+              <div class="card bg-base-200">
+                <div class="card-body">
+                  <h3 class="card-title text-base sm:text-lg md:text-xl">Mengapa Belajar JavaScript?</h3>
+                  <ul class="list-disc ml-4 sm:ml-6 mt-2 text-sm sm:text-base">
+                    <li>Populer: Salah satu bahasa pemrograman paling populer</li>
+                    <li>Versatile: Dapat digunakan untuk front-end dan back-end</li>
+                    <li>Mudah dimulai: Tidak memerlukan setup khusus</li>
+                    <li>Banyak sumber belajar: Tutorial dan komunitas yang luas</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+
+            <div class="mt-6 sm:mt-8">
+              <h3 class="text-lg sm:text-xl md:text-2xl font-semibold mb-4">Contoh Sederhana JavaScript</h3>
+              <pre class="bg-base-300 p-2 sm:p-4 rounded-lg overflow-x-auto text-xs sm:text-sm"><code class="language-javascript">
+// Menampilkan pesan di console browser
+console.log("Halo, Dunia!");
+
+// Membuat variabel dan menampilkan nilainya
+let nama = "John";
+console.log("Nama saya " + nama);
+
+// Fungsi sederhana
+function sapa(nama) {
+  return "Halo, " + nama + "!";
+}
+
+console.log(sapa("Alice")); // Output: Halo, Alice!
+              </code></pre>
+            </div>
+          </div>
+        </section>
+
+        <!-- Section: Basic JavaScript -->
+        <section id="basic" class="card bg-base-100 shadow-xl my-4 sm:my-8 pt-16">
+          <div class="card-body">
+            <h2 class="card-title text-xl sm:text-2xl md:text-3xl mb-4">JavaScript Dasar</h2>
+            <ul class="list-disc ml-4 sm:ml-5 mb-4 text-sm sm:text-base">
+              <li>Variabel dan Tipe Data (var, let, const)</li>
+              <li>Operator dan Ekspresi</li>
+              <li>Struktur Kontrol (if/else, switch, loop)</li>
+              <li>Fungsi dan Parameter</li>
+              <li>Array dan Objek Dasar</li>
+              <li>Manipulasi DOM Sederhana</li>
+              <li>Event Handling Dasar</li>
+              <li>Debugging dengan console.log()</li>
+            </ul>
+            <div class="card-actions justify-end">
+              <button class="btn btn-primary btn-sm sm:btn-md toggle-example" data-target="basicExample" data-show-text="Lihat Contoh" data-hide-text="Sembunyikan">
+                Lihat Contoh
+              </button>
+            </div>
+          </div>
+          <div id="basicExample" class="hidden p-2 sm:p-4 bg-base-200 rounded-b-xl">
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div class="example-card">
+                <h3 class="text-lg font-semibold mb-2">Variabel dan Tipe Data</h3>
+                <pre><code class="language-javascript">
+    let nama = "John";
+    const umur = 25;
+    var isProgrammer = true;
+
+    console.log(`${nama} berumur ${umur} tahun.`);
+                </code></pre>
+              </div>
+              <div class="example-card">
+                <h3 class="text-lg font-semibold mb-2">Struktur Kontrol</h3>
+                <pre><code class="language-javascript">
+    if (umur >= 18) {
+      console.log("Dewasa");
+    } else {
+      console.log("Anak-anak");
+    }
+
+    for (let i = 0; i < 5; i++) {
+      console.log(i);
+    }
+                </code></pre>
+              </div>
+              <div class="example-card">
+                <h3 class="text-lg font-semibold mb-2">Fungsi</h3>
+                <pre><code class="language-javascript">
+    function hitungLuas(panjang, lebar) {
+      return panjang * lebar;
+    }
+    console.log(hitungLuas(5, 3));
+
+    const kuadrat = (x) => x * x;
+    console.log(kuadrat(4));
+                </code></pre>
+              </div>
+              <div class="example-card">
+                <h3 class="text-lg font-semibold mb-2">Array dan Objek</h3>
+                <pre><code class="language-javascript">
+    let buah = ["apel", "jeruk", "mangga"];
+    buah.forEach(item => console.log(item));
+
+    let siswa = {
+      nama: "Alice",
+      nilai: [85, 90, 92],
+      hitungRata: function() {
+        return this.nilai.reduce((a, b) => a + b) / this.nilai.length;
+      }
+    };
+    console.log(siswa.hitungRata());
+                </code></pre>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Section: Intermediate JavaScript -->
+        <section id="intermediate" class="card bg-base-100 shadow-xl my-4 sm:my-8 pt-16">
+          <div class="card-body">
+            <h2 class="card-title text-xl sm:text-2xl md:text-3xl mb-4">JavaScript Menengah</h2>
+            <ul class="list-disc ml-4 sm:ml-5 mb-4 text-sm sm:text-base">
+              <li>ES6+ Features (arrow functions, destructuring, spread/rest, etc.)</li>
+              <li>Asynchronous JavaScript (Callbacks, Promises, async/await)</li>
+              <li>Closures dan Scope</li>
+              <li>Object-Oriented Programming in JavaScript</li>
+              <li>Error Handling (try/catch)</li>
+              <li>Modules (import/export)</li>
+              <li>Working with APIs and AJAX</li>
+              <li>Local Storage dan Session Storage</li>
+              <li>Regular Expressions</li>
+            </ul>
+            <div class="card-actions justify-end">
+              <button class="btn btn-primary btn-sm sm:btn-md toggle-example" data-target="intermediateExample" data-show-text="Lihat Contoh" data-hide-text="Sembunyikan">
+                Lihat Contoh
+              </button>
+            </div>
+          </div>
+          <div id="intermediateExample" class="hidden p-2 sm:p-4 bg-base-200 rounded-b-xl">
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div class="example-card">
+                <h3 class="text-lg font-semibold mb-2">ES6+ Features</h3>
+                <pre><code class="language-javascript">
+    // Arrow function
+    const greet = (name = "Guest") => `Hello, ${name}!`;
+    console.log(greet());
+
+    // Destructuring
+    let { firstName, lastName } = { firstName: "John", lastName: "Doe" };
+    console.log(firstName, lastName);
+
+    // Spread operator
+    let arr1 = [1, 2, 3];
+    let arr2 = [...arr1, 4, 5];
+    console.log(arr2);
+                </code></pre>
+              </div>
+              <div class="example-card">
+                <h3 class="text-lg font-semibold mb-2">Asynchronous JavaScript</h3>
+                <pre><code class="language-javascript">
+    function fetchData() {
+      return new Promise((resolve, reject) => {
+        setTimeout(() => resolve("Data fetched"), 2000);
+      });
+    }
+
+    async function getData() {
+      try {
+        const result = await fetchData();
+        console.log(result);
+      } catch (error) {
+        console.error(error);
+      }
+    }
+
+    getData();
+                </code></pre>
+              </div>
+              <div class="example-card">
+                <h3 class="text-lg font-semibold mb-2">Closures</h3>
+                <pre><code class="language-javascript">
+    function counter() {
+      let count = 0;
+      return function() {
+        return ++count;
+      }
+    }
+
+    let increment = counter();
+    console.log(increment()); // 1
+    console.log(increment()); // 2
+                </code></pre>
+              </div>
+              <div class="example-card">
+                <h3 class="text-lg font-semibold mb-2">Object-Oriented Programming</h3>
+                <pre><code class="language-javascript">
+    class Animal {
+      constructor(name) {
+        this.name = name;
+      }
+      speak() {
+        console.log(`${this.name} makes a sound.`);
+      }
+    }
+
+    class Dog extends Animal {
+      speak() {
+        super.speak();
+        console.log(`${this.name} barks.`);
+      }
+    }
+
+    let dog = new Dog("Rex");
+    dog.speak();
+                </code></pre>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Section: Advanced JavaScript -->
+        <section id="advanced" class="card bg-base-100 shadow-xl my-4 sm:my-8 pt-16">
+          <div class="card-body">
+            <h2 class="card-title text-xl sm:text-2xl md:text-3xl mb-4">JavaScript Lanjutan</h2>
+            <ul class="list-disc ml-4 sm:ml-5 mb-4 text-sm sm:text-base">
+              <li>Functional Programming Concepts</li>
+              <li>Design Patterns (Singleton, Factory, Observer, etc.)</li>
+              <li>Advanced Asynchronous Patterns</li>
+              <li>Prototypes dan Inheritance</li>
+              <li>Memory Management dan Optimisasi</li>
+              <li>Web Workers dan Service Workers</li>
+              <li>Testing (Unit Testing, Integration Testing)</li>
+              <li>Security Best Practices</li>
+              <li>TypeScript Basics</li>
+              <li>Build Tools and Module Bundlers (Webpack, Rollup)</li>
+            </ul>
+            <div class="card-actions justify-end">
+              <button class="btn btn-primary btn-sm sm:btn-md toggle-example" data-target="advancedExample" data-show-text="Lihat Contoh" data-hide-text="Sembunyikan">
+                Lihat Contoh
+              </button>
+            </div>
+          </div>
+          <div id="advancedExample" class="hidden p-2 sm:p-4 bg-base-200 rounded-b-xl">
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div class="example-card">
+                <h3 class="text-lg font-semibold mb-2">Functional Programming</h3>
+                <pre><code class="language-javascript">
+    const numbers = [1, 2, 3, 4, 5];
+    const doubled = numbers.map(n => n * 2);
+    const sum = numbers.reduce((acc, n) => acc + n, 0);
+    console.log(doubled);
+    console.log(sum);
+                </code></pre>
+              </div>
+              <div class="example-card">
+                <h3 class="text-lg font-semibold mb-2">Design Patterns</h3>
+                <pre><code class="language-javascript">
+    // Singleton
+    const Singleton = (function() {
+      let instance;
+      function createInstance() {
+        return new Object("I am the instance");
+      }
+      return {
+        getInstance: function() {
+          if (!instance) {
+            instance = createInstance();
+          }
+          return instance;
+        }
+      };
+    })();
+
+    console.log(Singleton.getInstance());
+                </code></pre>
+              </div>
+              <div class="example-card">
+                <h3 class="text-lg font-semibold mb-2">Advanced Asynchronous Patterns</h3>
+                <pre><code class="language-javascript">
+    function timeout(ms) {
+      return new Promise(resolve => setTimeout(resolve, ms));
+    }
+
+    async function* numberGenerator() {
+      yield 1;
+      await timeout(1000);
+      yield 2;
+      await timeout(1000);
+      yield 3;
+    }
+
+    (async function() {
+      for await (let num of numberGenerator()) {
+        console.log(num);
+      }
+    })();
+                </code></pre>
+              </div>
+              <div class="example-card">
+                <h3 class="text-lg font-semibold mb-2">Prototypes and Inheritance</h3>
+                <pre><code class="language-javascript">
+    function Vehicle(name) {
+      this.name = name;
+    }
+
+    Vehicle.prototype.start = function() {
+      return `${this.name} is starting`;
+    };
+
+    function Car(name) {
+      Vehicle.call(this, name);
+    }
+
+    Car.prototype = Object.create(Vehicle.prototype);
+    Car.prototype.constructor = Car;
+
+    let myCar = new Car("Toyota");
+    console.log(myCar.start());
+                </code></pre>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Section: Expert JavaScript -->
+        <section id="expert" class="card bg-base-100 shadow-xl my-4 sm:my-8 hidden">
+          <div class="card-body">
+            <h2 class="card-title text-xl sm:text-2xl md:text-3xl mb-4">JavaScript Tingkat Ahli</h2>
+            <ul class="list-disc ml-4 sm:ml-5 mb-4 text-sm sm:text-base">
+              <li>Advanced Performance Optimization Techniques</li>
+              <li>Metaprogramming dan Reflection</li>
+              <li>Compiler Theory and Abstract Syntax Trees</li>
+              <li>WebAssembly Integration</li>
+              <li>Advanced Framework Architecture (React, Vue, Angular internals)</li>
+              <li>Custom Plugin and Framework Development</li>
+              <li>Scalable JavaScript Application Architecture</li>
+              <li>Machine Learning with TensorFlow.js</li>
+            </ul>
+            <div class="card-actions justify-end">
+              <button class="btn btn-primary btn-sm sm:btn-md toggle-example" data-target="expertExample" data-show-text="Lihat Contoh" data-hide-text="Sembunyikan">
+                Lihat Contoh
+              </button>
+            </div>
+          </div>
+          <div id="expertExample" class="hidden p-2 sm:p-4 bg-base-200 rounded-b-xl">
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div class="example-card">
+                <h3 class="text-lg font-semibold mb-2">Advanced Performance Optimization</h3>
+                <pre><code class="language-javascript">
+    const memoize = (fn) => {
+      const cache = new Map();
+      return (...args) => {
+        const key = JSON.stringify(args);
+        if (cache.has(key)) return cache.get(key);
+        const result = fn.apply(this, args);
+        cache.set(key, result);
+        return result;
+      };
+    };
+
+    const expensiveFunction = memoize((n) => {
+      console.log("Calculating...");
+      return n * 2;
+    });
+
+    console.log(expensiveFunction(5)); // Calculating...
+    console.log(expensiveFunction(5)); // Uses cached result
+                </code></pre>
+              </div>
+              <div class="example-card">
+                <h3 class="text-lg font-semibold mb-2">Metaprogramming and Reflection</h3>
+                <pre><code class="language-javascript">
+    const handler = {
+      get: function(target, name) {
+        return name in target ? target[name] : 42;
+      }
+    };
+    const p = new Proxy({}, handler);
+    console.log(p.a); // 42
+    console.log(p.b); // 42
+    p.a = 24;
+    console.log(p.a); // 24
+                </code></pre>
+              </div>
+              <div class="example-card">
+                <h3 class="text-lg font-semibold mb-2">Abstract Syntax Tree</h3>
+                <pre><code class="language-javascript">
+    function parseExpression(expression) {
+      const tokens = expression.split(' ');
+      return {
+        type: 'BinaryExpression',
+        operator: tokens[1],
+        left: { type: 'Literal', value: parseInt(tokens[0]) },
+        right: { type: 'Literal', value: parseInt(tokens[2]) }
+      };
+    }
+
+    console.log(parseExpression('5 + 3'));
+                </code></pre>
+              </div>
+              <div class="example-card">
+                <h3 class="text-lg font-semibold mb-2">WebAssembly Integration</h3>
+                <pre><code class="language-javascript">
+    // Assuming we have a WebAssembly module 'simple.wasm'
+    // that exports an 'add' function
+    (async () => {
+      const response = await fetch('simple.wasm');
+      const bytes = await response.arrayBuffer();
+      const { instance } = await WebAssembly.instantiate(bytes);
+      console.log(instance.exports.add(1, 2)); // Should print 3
+    })();
+                </code></pre>
+              </div>
+              <div class="example-card">
+                <h3 class="text-lg font-semibold mb-2">Custom Framework Development</h3>
+                <pre><code class="language-javascript">
+    class Component {
+      constructor(props) {
+        this.props = props;
+        this.state = {};
+      }
+      setState(newState) {
+        this.state = { ...this.state, ...newState };
+        this.render();
+      }
+      render() {
+        // To be implemented by subclasses
+      }
+    }
+
+    class MyComponent extends Component {
+      render() {
+        console.log(`Hello, ${this.props.name}!`);
+      }
+    }
+
+    const comp = new MyComponent({ name: "World" });
+    comp.render();
+                </code></pre>
+              </div>
+              <div class="example-card">
+                <h3 class="text-lg font-semibold mb-2">Machine Learning with TensorFlow.js</h3>
+                <pre><code class="language-javascript">
+    async function runModel() {
+      const model = tf.sequential();
+      model.add(tf.layers.dense({units: 1, inputShape: [1]}));
+      model.compile({loss: 'meanSquaredError', optimizer: 'sgd'});
+      
+      const xs = tf.tensor2d([1, 2, 3, 4], [4, 1]);
+      const ys = tf.tensor2d([1, 3, 5, 7], [4, 1]);
+      
+      await model.fit(xs, ys, {epochs: 10});
+      console.log(model.predict(tf.tensor2d([5], [1, 1])));
+    }
+
+    runModel();
+                </code></pre>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Section: Projects -->
+        <section id="projects" class="card bg-base-100 shadow-xl my-4 sm:my-8 pt-16">
+          <div class="card-body">
+            <h2 class="card-title text-xl sm:text-2xl md:text-3xl mb-4">Proyek JavaScript</h2>
+            <p class="mb-4 text-sm sm:text-base">Praktikkan keterampilan JavaScript Anda dengan proyek-proyek berikut:</p>
+            <div class="grid grid-cols-1 gap-4">
+              <!-- Calculator Project -->
+              <div class="card bg-base-200">
+                <div class="card-body">
+                  <h3 class="card-title text-base sm:text-lg">Kalkulator Sederhana</h3>
+                  <p class="text-sm sm:text-base">Buat kalkulator dengan operasi dasar menggunakan HTML, CSS, dan JavaScript.</p>
+                  <div class="card-actions justify-end">
+                    <button class="btn btn-primary btn-sm" onclick="toggleProjectDetails('calculator')">Detail</button>
+                  </div>
+                </div>
+                <div id="calculator-details" class="hidden p-2 sm:p-4 bg-base-300 rounded-b-xl">
+                  <!-- Project details will be dynamically inserted here -->
+                </div>
+              </div>
+
+              <!-- To-Do List Project -->
+              <div class="card bg-base-200">
+                <div class="card-body">
+                  <h3 class="card-title text-base sm:text-lg">To-Do List App</h3>
+                  <p class="text-sm sm:text-base">Kembangkan aplikasi daftar tugas dengan fitur tambah, hapus, dan tandai selesai.</p>
+                  <div class="card-actions justify-end">
+                    <button class="btn btn-primary btn-sm" onclick="toggleProjectDetails('todoList')">Detail</button>
+                  </div>
+                </div>
+                <div id="todoList-details" class="hidden p-2 sm:p-4 bg-base-300 rounded-b-xl">
+                  <!-- Project details will be dynamically inserted here -->
+                </div>
+              </div>
+
+              <!-- Quiz App Project -->
+              <div class="card bg-base-200">
+                <div class="card-body">
+                  <h3 class="card-title text-base sm:text-lg">Quiz App</h3>
+                  <p class="text-sm sm:text-base">Buat aplikasi kuis interaktif dengan pertanyaan pilihan ganda dan skor.</p>
+                  <div class="card-actions justify-end">
+                    <button class="btn btn-primary btn-sm" onclick="toggleProjectDetails('quizApp')">Detail</button>
+                  </div>
+                </div>
+                <div id="quizApp-details" class="hidden p-2 sm:p-4 bg-base-300 rounded-b-xl">
+                  <!-- Project details will be dynamically inserted here -->
+                </div>
+              </div>
+
+              <!-- Weather App Project -->
+              <div class="card bg-base-200">
+                <div class="card-body">
+                  <h3 class="card-title text-base sm:text-lg">Weather App</h3>
+                  <p class="text-sm sm:text-base">Kembangkan aplikasi cuaca menggunakan API cuaca dan geolokasi.</p>
+                  <div class="card-actions justify-end">
+                    <button class="btn btn-primary btn-sm" onclick="toggleProjectDetails('weatherApp')">Detail</button>
+                  </div>
+                </div>
+                <div id="weatherApp-details" class="hidden p-2 sm:p-4 bg-base-300 rounded-b-xl">
+                  <!-- Project details will be dynamically inserted here -->
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+      </main>
+
+      <!-- Footer -->
+      <footer class="footer footer-center p-4 sm:p-10 bg-base-200 text-base-content rounded text-sm sm:text-base">
+        <div>
+          <p>&copy; 2024 Tutorial JavaScript oleh [Naufal Rizky]</p>
+          <div class="grid grid-flow-col gap-4">
+            <a href="#" class="link link-hover">Kontak</a> 
+            <a href="#" class="link link-hover">Tentang Kami</a>
+          </div>
+        </div>
+      </footer>
+    </div> 
+
+    <!-- Sidebar -->
+    <aside class="drawer-side">
+      <label for="my-drawer" class="drawer-overlay" aria-label="Close sidebar"></label>
+      <ul class="menu p-4 overflow-y-auto w-80 bg-base-100 text-base-content">
+        <li><a href="#introduction" class="drawer-link"><i class="fas fa-book-open mr-2" aria-hidden="true"></i>Pengenalan</a></li>
+        <li><a href="#basic" class="drawer-link"><i class="fas fa-code mr-2" aria-hidden="true"></i>Dasar</a></li>
+        <li><a href="#intermediate" class="drawer-link"><i class="fas fa-laptop-code mr-2" aria-hidden="true"></i>Menengah</a></li>
+        <li><a href="#advanced" class="drawer-link"><i class="fas fa-brain mr-2" aria-hidden="true"></i>Lanjutan</a></li>
+        <li><a href="#projects" class="drawer-link"><i class="fas fa-project-diagram mr-2" aria-hidden="true"></i>Proyek</a></li>
+        <li><a href="playground.html" class="drawer-link"><i class="fas fa-play mr-2" aria-hidden="true"></i>Playground</a></li>
+      </ul>
+    </aside>
+  </div>
+
+   <!-- Chatbot Container -->
+   <div id="chatbot" class="fixed bottom-0 right-0 z-50 md:bottom-6 md:right-6">
+    <!-- Toggle Button -->
+    <button id="chatbot-toggle" 
+            class="chatbot-toggle-btn">
+        <span class="relative inline-flex">
+            <i class="fas fa-comment-dots"></i>
+            <span class="notification-dot"></span>
+        </span>
+    </button>
+    
+    <!-- Chatbot Window -->
+    <div id="chatbot-window" class="hidden">
+        <div class="chatbot-container">
+            <!-- Mobile Header -->
+            <div class="chat-header">
+                <div class="flex items-center justify-between w-full">
+                    <div class="flex items-center gap-3">
+                        <div class="chat-avatar">
+                            <div class="avatar-img">
+                                <i class="fas fa-robot"></i>
+                            </div>
+                            <div class="status-dot"></div>
+                        </div>
+                        <div class="chat-header-info">
+                            <h3>AI Assistant</h3>
+                            <span>JavaScript Expert</span>
+                        </div>
+                    </div>
+                    <div class="chat-actions">
+                        <button class="action-btn md:hidden" id="minimize-chat">
+                            <i class="fas fa-minus"></i>
+                        </button>
+                        <button id="chatbot-close" class="action-btn">
+                            <i class="fas fa-xmark"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Messages Area -->
+            <div id="chat-messages" class="chat-messages">
+                <!-- Messages will be inserted here -->
+            </div>
+
+            <!-- Input Area -->
+            <div class="chat-input-area">
+                <form id="chat-form" class="flex items-center gap-2">
+                    <div class="input-wrapper flex-1">
+                        <input type="text" 
+                               id="chat-input" 
+                               class="w-full bg-transparent"
+                               placeholder="Ketik pesan..."
+                               autocomplete="off">
+                        <div class="input-actions hidden md:flex">
+                            <button type="button" class="input-action-btn">
+                                <i class="far fa-face-smile"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <button type="submit" class="send-button">
+                        <i class="fas fa-paper-plane"></i>
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+  <style>
+    #chatbot-window {
+      position: fixed;
+      bottom: 5rem;
+      right: 1rem;
+      width: 350px;
+      height: 500px;
+      max-height: calc(100vh - 120px);
+      background-color: var(--base-100);
+      border-radius: 1rem;
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+      display: none; /* Change from hidden to none */
+      flex-direction: column;
+      transition: all 0.3s ease-in-out;
+      z-index: 49;
+    }
+
+    #chatbot-window.active {
+      display: flex; /* Show when active */
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    #chatbot-toggle {
+      position: fixed;
+      bottom: 1rem;
+      right: 1rem;
+      z-index: 50;
+      cursor: pointer;
+      transition: transform 0.3s ease;
+    }
+
+    #chatbot-toggle:hover {
+      transform: scale(1.1);
+    }
+
+    /* Mobile responsive adjustments */
+    @media (max-width: 640px) {
+      #chatbot-window {
+        width: 100%;
+        height: 100vh;
+        bottom: 0;
+        right: 0;
+        border-radius: 0;
+        transform: translateY(100%);
+      }
+
+      #chatbot-window.active {
+        transform: translateY(0);
+      }
+    }
+
+    /* Ensure chat messages are scrollable */
+    #chat-messages {
+      flex-grow: 1;
+      overflow-y: auto;
+      padding: 1rem;
+      scroll-behavior: smooth;
+    }
+
+    /* Add smooth transitions */
+    .chat-message {
+      opacity: 0;
+      transform: translateY(10px);
+      animation: fadeIn 0.3s ease forwards;
+    }
+
+    @keyframes fadeIn {
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+  </style>
+
+  <style>
+    .prose pre {
+      background-color: #1a1a1a;
+      padding: 1rem;
+      border-radius: 0.5rem;
+      margin: 1rem 0;
+    }
+    
+    .prose code {
+      color: #e06c75;
+      background-color: rgba(0, 0, 0, 0.1);
+      padding: 0.2rem 0.4rem;
+      border-radius: 0.25rem;
+      font-family: 'Fira Code', monospace;
+    }
+    
+    .prose pre code {
+      color: #abb2bf;
+      background-color: transparent;
+      padding: 0;
+    }
+    
+    .prose {
+      max-width: none;
+    }
+    
+    .prose p {
+      margin: 0.5rem 0;
+    }
+    
+    .prose ul {
+      list-style-type: disc;
+      padding-left: 1.5rem;
+    }
+    
+    .prose ol {
+      list-style-type: decimal;
+      padding-left: 1.5rem;
+    }
+  </style>
+
+  <script>
+   function showContent(sectionId) {
+    const section = document.getElementById(sectionId);
+    const navbarHeight = document.querySelector('.navbar').offsetHeight;
+    const yOffset = -navbarHeight - 16;
+    const y = section.getBoundingClientRect().top + window.pageYOffset + yOffset;
+
+    window.scrollTo({top: y, behavior: 'smooth'});
+
+    // Close the drawer on mobile
+    document.getElementById('my-drawer').checked = false;
+}
+
+function showExample(exampleId) {
+    const example = document.getElementById(exampleId);
+    example.classList.toggle('hidden');
+}
+
+function updateActiveButton(sectionId) {
+    const navButtons = document.querySelectorAll('.nav-btn');
+    navButtons.forEach(btn => {
+        btn.classList.remove('active');
+        if (btn.textContent.toLowerCase().includes(sectionId)) {
+            btn.classList.add('active');
+        }
+    });
+}
+
+// Initialize the page
+window.onload = () => {
+    // Scroll to the top of the page
+    window.scrollTo(0, 0);
+    
+    // Show the introduction section
+    showContent('introduction');
+};
+
+function toggleExample(exampleId) {
+    const example = document.getElementById(exampleId);
+    const button = document.querySelector(`[data-target="${exampleId}"]`);
+    
+    example.classList.toggle('hidden');
+    
+    if (example.classList.contains('hidden')) {
+        button.textContent = button.getAttribute('data-show-text');
+        example.style.maxHeight = null;
+    } else {
+        button.textContent = button.getAttribute('data-hide-text');
+        example.style.maxHeight = example.scrollHeight + "px";
+        // Highlight kode setelah contoh ditampilkan
+        example.querySelectorAll('pre code').forEach((block) => {
+          hljs.highlightBlock(block);
+        });
+    }
+}
+
+// Tambahkan event listener untuk tombol toggle
+document.querySelectorAll('.toggle-example').forEach(button => {
+    button.addEventListener('click', function() {
+        const targetId = this.getAttribute('data-target');
+        toggleExample(targetId);
+    });
+});
+
+// Tambahkan event listener untuk link di drawer
+document.querySelectorAll('.drawer-link').forEach(link => {
+    link.addEventListener('click', function() {
+        document.getElementById('my-drawer').checked = false;
+    });
+});
+
+// Theme toggle functionality
+const themeToggleBtn = document.getElementById('theme-toggle');
+const themeToggleDarkIcon = document.getElementById('theme-toggle-dark-icon');
+const themeToggleLightIcon = document.getElementById('theme-toggle-light-icon');
+
+// Set initial theme
+if (localStorage.getItem('theme') === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+    document.documentElement.setAttribute('data-theme', 'dark');
+    themeToggleLightIcon.classList.remove('hidden');
+    themeToggleDarkIcon.classList.add('hidden');
+} else {
+    document.documentElement.setAttribute('data-theme', 'light');
+    themeToggleLightIcon.classList.add('hidden');
+    themeToggleDarkIcon.classList.remove('hidden');
+}
+
+// Theme toggle handler
+themeToggleBtn.addEventListener('click', function() {
+    // Toggle icons
+    themeToggleDarkIcon.classList.toggle('hidden');
+    themeToggleLightIcon.classList.toggle('hidden');
+
+    // Toggle theme
+    const currentTheme = document.documentElement.getAttribute('data-theme');
+    const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+    
+    document.documentElement.setAttribute('data-theme', newTheme);
+    localStorage.setItem('theme', newTheme);
+});
+
+// Highlight.js initialization
+document.addEventListener('DOMContentLoaded', () => {
+    hljs.configure({ ignoreUnescapedHTML: true });
+    document.querySelectorAll('pre code').forEach((el) => {
+        if (el.dataset.highlighted) {
+            delete el.dataset.highlighted;
+        }
+        hljs.highlightElement(el);
+    });
+});
+
+function toggleProjectDetails(projectId) {
+  const projectDetails = document.getElementById(`${projectId}-details`);
+  if (projectDetails.classList.contains('hidden')) {
+    projectDetails.innerHTML = getProjectDetails(projectId);
+    projectDetails.classList.remove('hidden');
+  } else {
+    projectDetails.classList.add('hidden');
+  }
+}
+
+function getProjectDetails(projectId) {
+  const projects = {
+    calculator: {
+      title: "Kalkulator Sederhana",
+      description: "Buat kalkulator dengan operasi dasar (tambah, kurang, kali, bagi) menggunakan HTML, CSS, dan JavaScript.",
+      features: [
+        "Tampilan kalkulator dengan tombol angka dan operasi",
+        "Fungsi untuk melakukan perhitungan",
+        "Tampilan hasil perhitungan",
+        "Penanganan kesalahan input"
+      ],
+      codeSnippet: hljs.highlight(`// Fungsi untuk melakukan perhitungan dasar
+class Calculator {
+  constructor() {
+    this.result = 0;
+  }
+
+  add(a, b) {
+    return a + b;
+  }
+
+  subtract(a, b) {
+    return a - b;
+  }
+
+  multiply(a, b) {
+    return a * b;
+  }
+
+  divide(a, b) {
+    if (b === 0) {
+      throw new Error("Tidak bisa membagi dengan nol!");
+    }
+    return a / b;
+  }
+
+  // Method untuk menghitung berdasarkan operator
+  calculate(a, b, operator) {
+    switch(operator) {
+      case "+":
+        return this.add(a, b);
+      case "-":
+        return this.subtract(a, b);
+      case "*":
+        return this.multiply(a, b);
+      case "/":
+        return this.divide(a, b);
+      default:
+        throw new Error("Operator tidak valid!");
+    }
+  }
+}
+
+// Penggunaan kalkulator
+const calc = new Calculator();
+console.log(calc.calculate(10, 5, "+")); // Output: 15
+console.log(calc.calculate(10, 5, "-")); // Output: 5
+console.log(calc.calculate(10, 5, "*")); // Output: 50
+console.log(calc.calculate(10, 5, "/")); // Output: 2`, 
+      { language: 'javascript' }).value
+    },
+    todoList: {
+      title: "To-Do List App",
+      description: "Kembangkan aplikasi daftar tugas dengan fitur tambah, hapus, dan tandai selesai.",
+      features: [
+        "Input untuk menambahkan tugas baru",
+        "Daftar tugas yang dapat diperbarui",
+        "Tombol untuk menandai tugas selesai",
+        "Tombol untuk menghapus tugas",
+        "Penyimpanan lokal untuk menyimpan tugas"
+      ],
+      codeSnippet: hljs.highlight(`// Implementasi Todo List dengan Local Storage
+class TodoList {
+  constructor() {
+    this.tasks = JSON.parse(localStorage.getItem('tasks')) || [];
+  }
+
+  // Menambah tugas baru
+  addTask(title) {
+    const task = {
+      id: Date.now(),
+      title: title,
+      completed: false,
+      createdAt: new Date()
+    };
+    
+    this.tasks.push(task);
+    this.saveTasks();
+    return task;
+  }
+
+  // Menghapus tugas
+  deleteTask(taskId) {
+    this.tasks = this.tasks.filter(task => task.id !== taskId);
+    this.saveTasks();
+  }
+
+  // Menandai tugas selesai
+  toggleTask(taskId) {
+    const task = this.tasks.find(task => task.id === taskId);
+    if (task) {
+      task.completed = !task.completed;
+      this.saveTasks();
+    }
+  }
+
+  // Menyimpan ke localStorage
+  saveTasks() {
+    localStorage.setItem('tasks', JSON.stringify(this.tasks));
+  }
+
+  // Mendapatkan semua tugas
+  getAllTasks() {
+    return this.tasks;
+  }
+}
+
+// Penggunaan Todo List
+const todoList = new TodoList();
+todoList.addTask("Belajar JavaScript");
+todoList.addTask("Membuat Aplikasi Todo");
+console.log(todoList.getAllTasks());`, 
+      { language: 'javascript' }).value
+    },
+    quizApp: {
+      title: "Quiz App",
+      description: "Buat aplikasi kuis interaktif dengan pertanyaan pilihan ganda dan skor.",
+      features: [
+        "Daftar pertanyaan dengan pilihan jawaban",
+        "Sistem penilaian",
+        "Tampilan hasil akhir",
+        "Timer untuk setiap pertanyaan (opsional)",
+        "Pengacakan urutan pertanyaan"
+      ],
+      codeSnippet: hljs.highlight(`// Contoh struktur data pertanyaan
+const questions = [
+  {
+    question: "Apa ibukota Indonesia?",
+    options: ["Jakarta", "Surabaya", "Bandung", "Yogyakarta"],
+    correctAnswer: 0
+  },
+  // Tambahkan pertanyaan lainnya
+];
+
+// Fungsi untuk memeriksa jawaban
+function checkAnswer(questionIndex, selectedOption) {
+  return questions[questionIndex].correctAnswer === selectedOption;
+}`, 
+      { language: 'javascript' }).value
+    },
+    weatherApp: {
+      title: "Weather App",
+      description: "Kembangkan aplikasi cuaca menggunakan API cuaca dan geolokasi.",
+      features: [
+        "Penggunaan geolokasi untuk mendapatkan lokasi pengguna",
+        "Permintaan data cuaca dari API (mis. OpenWeatherMap)",
+        "Tampilan informasi cuaca saat ini",
+        "Prakiraan cuaca untuk beberapa hari ke depan",
+        "Ikon cuaca yang sesuai dengan kondisi"
+      ],
+      codeSnippet: hljs.highlight(`// Contoh fungsi untuk mendapatkan data cuaca
+async function getWeatherData(lat, lon) {
+  const apiKey = 'YOUR_API_KEY';
+  const url = \`https://api.openweathermap.org/data/2.5/weather?lat=\${lat}&lon=\${lon}&appid=\${apiKey}&units=metric\`;
+
+  try {
+    const response = await fetch(url);
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error('Error fetching weather data:', error);
+  }
+}`, 
+      { language: 'javascript' }).value
+    }
+  };
+
+  const project = projects[projectId];
+  const html = `
+    <h3 class="text-xl font-semibold mb-2">${project.title}</h3>
+    <p class="mb-4">${project.description}</p>
+    <h4 class="text-lg font-semibold mb-2">Fitur Utama:</h4>
+    <ul class="list-disc ml-6 mb-4">
+      ${project.features.map(feature => `<li>${feature}</li>`).join('')}
+    </ul>
+    <h4 class="text-lg font-semibold mb-2">Contoh Kode:</h4>
+    <div class="code-container">
+      <pre><code class="language-javascript">${project.codeSnippet}</code></pre>
+    </div>
+  `;
+
+  return html;
+}
+
+  // Inisialisasi highlight.js
+  document.addEventListener('DOMContentLoaded', (event) => {
+    document.querySelectorAll('pre code').forEach((block) => {
+      hljs.highlightBlock(block);
+    });
+  });
+  </script>
+  <script src="bot.js"></script>
+</body>
+</html>

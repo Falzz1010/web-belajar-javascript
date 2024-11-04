@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JavaScript Playground - Interactive Code Editor</title>
+    
+    <!-- Base Styles -->
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/daisyui@2.14.1/dist/full.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css">
+    
+    <!-- CodeMirror Core -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/codemirror.min.css">
+    
+    <!-- CodeMirror Themes - Replace local paths with CDN links -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/theme/monokai.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/theme/dracula.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/theme/material.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/theme/nord.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/theme/eclipse.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/theme/neat.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/theme/idea.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/theme/xq-light.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/theme/solarized.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/theme/neo.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/theme/material-darker.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/theme/material-palenight.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/theme/material-ocean.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/theme/ayu-dark.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/theme/ambiance.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/theme/cobalt.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/theme/gruvbox-dark.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/theme/lucario.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/theme/twilight.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/theme/tomorrow-night-bright.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/theme/tomorrow-night-eighties.min.css">
+    
+    <!-- CodeMirror Addons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/addon/hint/show-hint.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/addon/fold/foldgutter.min.css">
+    
+    <!-- Custom Styles -->
+    <link rel="stylesheet" href="playground.css">
+</head>
+<body class="min-h-screen bg-base-200">
+    <!-- Navbar -->
+    <nav class="navbar bg-base-100 shadow-lg sticky top-0 z-30 px-2 sm:px-4">
+        <div class="flex-1">
+            <a href="index.html" class="btn btn-ghost normal-case text-xl">
+                <i class="fas fa-arrow-left mr-2"></i>Back to Tutorial
+            </a>
+        </div>
+        <div class="flex-none gap-2">
+            <button id="theme-toggle" class="btn btn-ghost btn-circle">
+                <i class="fas fa-sun"></i>
+            </button>
+            <div class="dropdown dropdown-end">
+                <label tabindex="0" class="btn btn-ghost btn-circle">
+                    <i class="fas fa-cog"></i>
+                </label>
+                <ul tabindex="0" class="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-52">
+                    <li><a id="toggle-line-numbers"><i class="fas fa-list-ol mr-2"></i>Line Numbers</a></li>
+                    <li><a id="toggle-auto-complete"><i class="fas fa-magic mr-2"></i>Auto Complete</a></li>
+                    <li><a id="toggle-live-autorun"><i class="fas fa-bolt mr-2"></i>Live Autorun</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container">
+        <!-- Editor and Console Container -->
+        <div class="editor-console-container">
+            <!-- JavaScript Editor Panel -->
+            <div class="panel">
+                <div class="panel-header">
+                    <h2 class="text-xl font-semibold">JavaScript Editor</h2>
+                    <div class="flex gap-2">
+                        <select id="editor-theme" class="select select-bordered select-sm">
+                            <option value="monokai">Monokai</option>
+                            <option value="dracula">Dracula</option>
+                            <option value="material">Material</option>
+                            <option value="nord">Nord</option>
+                        </select>
+                        <button id="format-code" class="btn btn-sm" title="Format Code">
+                            <i class="fas fa-align-left"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="panel-content">
+                    <div class="editor-container">
+                        <textarea id="code-editor"></textarea>
+                    </div>
+                    <div class="flex justify-between mt-4">
+                        <div class="flex gap-2">
+                            <button id="save-code" class="btn btn-sm btn-outline">
+                                <i class="fas fa-save mr-2"></i>Save
+                            </button>
+                            <button id="load-code" class="btn btn-sm btn-outline">
+                                <i class="fas fa-folder-open mr-2"></i>Load
+                            </button>
+                        </div>
+                        <div class="flex gap-2">
+                            <button id="clear-code" class="btn btn-sm btn-ghost">
+                                <i class="fas fa-trash-alt mr-2"></i>Clear
+                            </button>
+                            <button id="run-code" class="btn btn-sm btn-primary">
+                                <i class="fas fa-play mr-2"></i>Run
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Output Console Panel -->
+            <div class="panel">
+                <div class="panel-header">
+                    <h2 class="text-xl font-semibold">Output Console</h2>
+                    <button id="clear-output" class="btn btn-sm btn-ghost">
+                        <i class="fas fa-trash-alt mr-2"></i>Clear
+                    </button>
+                </div>
+                <div class="panel-content">
+                    <div id="output-container"></div>
+                    <div class="mt-4">
+                        <div class="flex gap-2">
+                            <input type="text" id="console-input" 
+                                   class="input input-bordered flex-grow" 
+                                   placeholder="Type JavaScript commands here...">
+                            <button id="run-console" class="btn btn-primary">
+                                <i class="fas fa-terminal mr-2"></i>Run
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Example Snippets Section -->
+        <div class="snippets-section">
+            <div class="snippets-header">
+                <h3 class="text-xl font-semibold">Example Snippets</h3>
+            </div>
+            <div class="snippets-tabs tabs tabs-boxed">
+                <a class="tab tab-active" data-category="basics">Basics</a>
+                <a class="tab" data-category="arrays">Arrays</a>
+                <a class="tab" data-category="objects">Objects</a>
+                <a class="tab" data-category="functions">Functions</a>
+                <a class="tab" data-category="async">Async</a>
+                <a class="tab" data-category="dom">DOM</a>
+            </div>
+            <div class="snippets-grid" id="snippets-container">
+                <!-- Snippets will be added here -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Storage Modal -->
+    <div id="storage-modal" class="modal">
+        <div class="modal-box">
+            <h3 class="font-bold text-lg mb-4">Saved Code Snippets</h3>
+            <div id="saved-snippets-list" class="max-h-96 overflow-y-auto">
+                <!-- Saved snippets will be listed here -->
+            </div>
+            <div class="modal-action">
+                <button class="btn" onclick="playground.closeStorageModal()">Close</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <!-- CodeMirror Core -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/codemirror.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/mode/javascript/javascript.min.js"></script>
+    
+    <!-- CodeMirror Addons -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/addon/edit/matchbrackets.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/addon/edit/closebrackets.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/addon/hint/show-hint.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/addon/hint/javascript-hint.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/addon/fold/foldcode.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/addon/fold/foldgutter.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/addon/fold/brace-fold.min.js"></script>
+    
+    <!-- Prettier -->
+    <script src="https://unpkg.com/prettier@2.5.1/standalone.js"></script>
+    <script src="https://unpkg.com/prettier@2.5.1/parser-babel.js"></script>
+    
+    <!-- Custom Scripts -->
+    <script src="playground.js"></script>
+</body>
+</html> 

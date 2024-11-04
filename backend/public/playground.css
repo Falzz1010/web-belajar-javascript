@@ -1,0 +1,801 @@
+/* Base styles and variables */
+:root {
+    --editor-bg: #1a1a1a;
+    --editor-border: #2d2d2d;
+    --console-bg: #1e1e1e;
+    --success-color: #4caf50;
+    --error-color: #f44336;
+    --warning-color: #ff9800;
+    --info-color: #2196f3;
+    --header-height: 60px;
+    --footer-height: 40px;
+}
+
+/* Theme-specific variables */
+[data-theme='light'] {
+    --editor-bg: #f5f5f5;
+    --editor-border: #e0e0e0;
+    --console-bg: #f8f9fa;
+}
+
+/* Global styles */
+body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    transition: background-color 0.3s ease;
+}
+
+/* CodeMirror customization */
+.CodeMirror {
+    height: 400px !important;
+    border-radius: 0.5rem;
+    font-family: 'Fira Code', 'JetBrains Mono', 'Consolas', monospace;
+    font-size: 14px;
+    line-height: 1.6;
+    padding: 10px;
+    transition: all 0.3s ease;
+}
+
+.editor-container {
+    position: relative;
+    border-radius: 0.5rem;
+    border: 1px solid var(--editor-border);
+    transition: border-color 0.3s ease;
+}
+
+/* Editor themes overrides */
+.cm-s-monokai.CodeMirror,
+.cm-s-dracula.CodeMirror,
+.cm-s-material.CodeMirror,
+.cm-s-nord.CodeMirror {
+    background-color: var(--editor-bg);
+}
+
+/* Console styling */
+#output-container {
+    font-family: 'Fira Code', 'JetBrains Mono', 'Consolas', monospace;
+    background-color: var(--console-bg);
+    white-space: pre-wrap;
+    line-height: 1.5;
+    transition: background-color 0.3s ease;
+}
+
+.output-log {
+    padding: 4px 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.output-error {
+    color: var(--error-color);
+    padding: 4px 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.output-warning {
+    color: var(--warning-color);
+    padding: 4px 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.output-info {
+    color: var(--info-color);
+    padding: 4px 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.output-command {
+    color: #888;
+    padding: 4px 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* Console input styling */
+#console-input {
+    font-family: 'Fira Code', 'JetBrains Mono', 'Consolas', monospace;
+    font-size: 14px;
+    background-color: var(--console-bg);
+    transition: background-color 0.3s ease;
+}
+
+/* Snippet cards */
+.snippet-card {
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+    border: 1px solid var(--editor-border);
+}
+
+.snippet-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: rgba(255, 255, 255, 0.3);
+}
+
+/* Modal styling */
+.modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 1000;
+    animation: fadeIn 0.3s ease;
+}
+
+.modal.active {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.modal-box {
+    background-color: var(--editor-bg);
+    border-radius: 0.5rem;
+    padding: 1.5rem;
+    max-width: 500px;
+    width: 90%;
+    max-height: 90vh;
+    overflow-y: auto;
+}
+
+/* Animations */
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+    .CodeMirror {
+        height: 300px !important;
+    }
+
+    #output-container {
+        max-height: 200px;
+    }
+
+    .tabs {
+        overflow-x: auto;
+        white-space: nowrap;
+        -webkit-overflow-scrolling: touch;
+    }
+}
+
+/* Code hint styling */
+.CodeMirror-hints {
+    position: absolute;
+    z-index: 10;
+    overflow: hidden;
+    list-style: none;
+    margin: 0;
+    padding: 2px;
+    border-radius: 4px;
+    background-color: var(--editor-bg);
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+    max-height: 20em;
+    overflow-y: auto;
+}
+
+.CodeMirror-hint {
+    margin: 0;
+    padding: 4px 8px;
+    border-radius: 2px;
+    white-space: pre;
+    cursor: pointer;
+    font-size: 13px;
+}
+
+.CodeMirror-hint-active {
+    background-color: var(--info-color);
+    color: white;
+}
+
+/* Loading indicator */
+.loading-spinner {
+    border: 3px solid rgba(255, 255, 255, 0.1);
+    border-radius: 50%;
+    border-top: 3px solid var(--info-color);
+    width: 24px;
+    height: 24px;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* Toast notifications */
+.toast {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    padding: 1rem;
+    border-radius: 0.5rem;
+    background-color: var(--editor-bg);
+    color: white;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+    z-index: 1000;
+    animation: slideIn 0.3s ease;
+}
+
+@keyframes slideIn {
+    from {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+/* Status indicators */
+.status-indicator {
+    display: inline-block;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    margin-right: 8px;
+}
+
+.status-success { background-color: var(--success-color); }
+.status-error { background-color: var(--error-color); }
+.status-warning { background-color: var(--warning-color); }
+.status-info { background-color: var(--info-color); }
+
+/* Responsive layout adjustments */
+@media (max-width: 1024px) {
+    .container {
+        padding: 1rem;
+    }
+
+    .flex-col.lg\:flex-row {
+        flex-direction: column !important;
+    }
+
+    .flex-1 {
+        width: 100%;
+        margin-bottom: 1rem;
+    }
+
+    .CodeMirror {
+        height: 300px !important;
+    }
+
+    #output-container {
+        height: 250px;
+        max-height: 250px;
+    }
+
+    .grid-cols-1.md\:grid-cols-2.lg\:grid-cols-3 {
+        grid-template-columns: repeat(1, minmax(0, 1fr)) !important;
+    }
+}
+
+/* Tablet layout */
+@media (min-width: 768px) and (max-width: 1024px) {
+    .grid-cols-1.md\:grid-cols-2.lg\:grid-cols-3 {
+        grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    }
+}
+
+/* Mobile layout adjustments */
+@media (max-width: 640px) {
+    .navbar {
+        padding: 0.5rem;
+    }
+
+    .btn {
+        padding: 0.5rem !important;
+    }
+
+    .card-body {
+        padding: 1rem;
+    }
+
+    .tabs {
+        flex-wrap: nowrap;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+        padding-bottom: 0.5rem;
+    }
+
+    .tab {
+        white-space: nowrap;
+        flex-shrink: 0;
+    }
+
+    .modal-box {
+        width: 95%;
+        max-height: 80vh;
+        margin: 1rem;
+        padding: 1rem;
+    }
+
+    .toast {
+        width: 90%;
+        left: 5%;
+        right: 5%;
+    }
+}
+
+/* Fix for editor and output containers */
+.editor-container, #output-container {
+    min-height: 200px;
+    max-height: calc(100vh - 400px);
+    overflow: auto;
+}
+
+/* Improved button responsiveness */
+.btn-group {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+}
+
+/* Better spacing for mobile */
+.card {
+    margin-bottom: 1rem;
+}
+
+/* Improved modal responsiveness */
+.modal-box {
+    max-width: min(500px, 90vw);
+    width: auto;
+}
+
+/* Improved toast positioning */
+.toast {
+    max-width: 90vw;
+    width: auto;
+}
+
+/* Desktop-specific styles */
+@media (min-width: 1024px) {
+    /* Container width control */
+    .container {
+        max-width: 95% !important;
+        padding: 1.5rem;
+    }
+
+    /* Editor and Output panel layout */
+    .flex-col.lg\:flex-row {
+        display: flex;
+        gap: 1.5rem;
+    }
+
+    .flex-col.lg\:flex-row > div {
+        flex: 1;
+        min-width: 45%;
+    }
+
+    /* CodeMirror height for desktop */
+    .CodeMirror {
+        height: calc(100vh - 400px) !important;
+        min-height: 500px;
+    }
+
+    /* Output container height matching editor */
+    #output-container {
+        height: calc(100vh - 400px);
+        min-height: 500px;
+    }
+
+    /* Snippet grid for desktop */
+    .grid-cols-1.md\:grid-cols-2.lg\:grid-cols-3 {
+        grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+        gap: 1.5rem;
+    }
+
+    /* Card improvements */
+    .card {
+        transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+    .card:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+    }
+
+    /* Better spacing for desktop */
+    .card-body {
+        padding: 1.5rem;
+    }
+
+    /* Improved button spacing */
+    .btn-group {
+        gap: 0.75rem;
+    }
+}
+
+/* Large desktop screens */
+@media (min-width: 1536px) {
+    .container {
+        max-width: 90% !important;
+    }
+
+    .CodeMirror, #output-container {
+        min-height: 600px;
+    }
+}
+
+/* Editor and Output panel improvements */
+.editor-container {
+    border-radius: 0.5rem;
+    overflow: hidden;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+#output-container {
+    border-radius: 0.5rem;
+    overflow: auto;
+    font-size: 0.95rem;
+    line-height: 1.5;
+}
+
+/* Better scrollbars for desktop */
+.CodeMirror-scrollbar-filler, .CodeMirror-gutter-filler {
+    background-color: transparent;
+}
+
+::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+}
+
+::-webkit-scrollbar-track {
+    background: rgba(0, 0, 0, 0.05);
+    border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb {
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: rgba(0, 0, 0, 0.3);
+}
+
+/* Main layout containers */
+.container {
+    max-width: 98% !important;
+    margin: 0 auto;
+    padding: 1rem;
+}
+
+/* Editor and Console Layout */
+.editor-console-container {
+    display: flex;
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+    min-height: calc(100vh - 400px);
+}
+
+/* Panel styling */
+.panel {
+    flex: 1;
+    min-width: 45%;
+    display: flex;
+    flex-direction: column;
+    background: var(--base-100);
+    border-radius: 1rem;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+}
+
+.panel-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 1.5rem;
+    border-bottom: 1px solid var(--editor-border);
+}
+
+.panel-content {
+    flex: 1;
+    padding: 1rem;
+    overflow: hidden;
+}
+
+/* Editor specific styles */
+.editor-container {
+    height: 100%;
+    min-height: 500px;
+}
+
+.CodeMirror {
+    height: 100% !important;
+    font-size: 0.95rem;
+    line-height: 1.6;
+    padding: 0.5rem;
+}
+
+/* Output Console specific styles */
+#output-container {
+    height: 100%;
+    min-height: 500px;
+    background: var(--console-bg);
+    padding: 1rem;
+    font-family: 'Fira Code', monospace;
+    font-size: 0.9rem;
+    line-height: 1.5;
+    overflow-y: auto;
+}
+
+/* Example Snippets section */
+.snippets-section {
+    margin-top: 2rem;
+    padding: 1rem;
+    background: var(--base-100);
+    border-radius: 1rem;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+}
+
+.snippets-header {
+    margin-bottom: 1.5rem;
+}
+
+.snippets-tabs {
+    margin-bottom: 1.5rem;
+    overflow-x: auto;
+    white-space: nowrap;
+    -webkit-overflow-scrolling: touch;
+    padding-bottom: 0.5rem;
+}
+
+.snippets-grid {
+    display: grid;
+    gap: 1.5rem;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+}
+
+/* Responsive adjustments */
+@media (max-width: 1024px) {
+    .editor-console-container {
+        flex-direction: column;
+    }
+
+    .panel {
+        min-width: 100%;
+    }
+
+    .editor-container,
+    #output-container {
+        min-height: 400px;
+    }
+
+    .snippets-grid {
+        grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    }
+}
+
+@media (max-width: 768px) {
+    .container {
+        padding: 0.5rem;
+    }
+
+    .panel-header {
+        padding: 0.75rem 1rem;
+    }
+
+    .panel-content {
+        padding: 0.75rem;
+    }
+
+    .editor-container,
+    #output-container {
+        min-height: 300px;
+    }
+
+    .snippets-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* Base responsive layout */
+:root {
+    --header-height: 60px;
+    --footer-height: 40px;
+}
+
+/* Container adjustments */
+.container {
+    width: 100%;
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 1rem;
+}
+/* Mobile-first approach */
+@media (max-width: 768px) {
+    .container {
+        padding: 0.5rem;
+    }
+
+    /* Navbar mobile adjustments */
+    .navbar {
+        padding: 0.5rem;
+    }
+
+    .navbar .btn {
+        padding: 0.5rem;
+    }
+
+    /* Editor and Console panels */
+    .editor-console-container {
+        flex-direction: column;
+        gap: 1rem;
+    }
+
+    .panel {
+        width: 100%;
+        min-height: auto;
+    }
+
+    .panel-header {
+        padding: 0.75rem;
+    }
+
+    .panel-header h2 {
+        font-size: 1rem;
+    }
+
+    .panel-content {
+        padding: 0.75rem;
+    }
+
+    /* Editor height for mobile */
+    .editor-container {
+        height: 300px;
+        min-height: auto;
+    }
+
+    .CodeMirror {
+        height: 100% !important;
+        font-size: 14px;
+    }
+
+    /* Output console height for mobile */
+    #output-container {
+        height: 250px;
+        min-height: auto;
+        font-size: 14px;
+    }
+
+    /* Button groups */
+    .btn-group {
+        gap: 0.25rem;
+    }
+
+    .btn-sm {
+        padding: 0.25rem 0.5rem;
+        font-size: 0.875rem;
+    }
+
+    /* Console input */
+    .console-input-group {
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+
+    #console-input {
+        width: 100%;
+    }
+
+    /* Snippets section */
+    .snippets-section {
+        margin-top: 1rem;
+    }
+
+    .snippets-header h3 {
+        font-size: 1rem;
+    }
+
+    .snippets-tabs {
+        overflow-x: auto;
+        white-space: nowrap;
+        padding-bottom: 0.5rem;
+        margin-bottom: 1rem;
+    }
+
+    .tab {
+        padding: 0.5rem 0.75rem;
+        font-size: 0.875rem;
+    }
+
+    .snippets-grid {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+
+    /* Modal adjustments */
+    .modal-box {
+        width: 95%;
+        margin: 0.5rem;
+        padding: 1rem;
+        max-height: 85vh;
+    }
+
+    .saved-snippet-item {
+        padding: 0.75rem;
+        font-size: 0.875rem;
+    }
+
+    /* Toast notifications */
+    .toast {
+        width: 90%;
+        left: 5%;
+        right: 5%;
+        bottom: 1rem;
+        font-size: 0.875rem;
+    }
+}
+
+/* Tablet adjustments */
+@media (min-width: 769px) and (max-width: 1024px) {
+    .editor-console-container {
+        flex-direction: column;
+    }
+
+    .editor-container,
+    #output-container {
+        height: 400px;
+    }
+
+    .snippets-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+/* Landscape mode adjustments */
+@media (max-height: 600px) and (orientation: landscape) {
+    .editor-container {
+        height: 200px;
+    }
+
+    #output-container {
+        height: 200px;
+    }
+}
+
+/* Better touch interactions */
+@media (hover: none) {
+    .btn:active {
+        transform: scale(0.95);
+    }
+
+    .saved-snippet-item {
+        padding: 0.75rem;
+    }
+
+    .saved-snippet-item:active {
+        background-color: var(--base-200);
+    }
+}
+
+/* Improved scrolling on mobile */
+.CodeMirror-scroll,
+#output-container,
+.snippets-tabs,
+.modal-box {
+    -webkit-overflow-scrolling: touch;
+}
